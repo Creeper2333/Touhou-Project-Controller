@@ -1,0 +1,36 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+</head>
+<body style="overflow:hidden">
+{{{0}}}
+</body>
+<script>
+    document.ontouchstart = function (e){
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function(){
+            console.log(this.responseText);
+        }
+        xmlhttp.open('POST', '/option', true);
+        xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        for (var i=0; i<e.touches.length; i++){
+            console.log(e.changedTouches[i].target)
+            xmlhttp.send(JSON.stringify({"type":"start", "option":e.changedTouches[i].target.id}));
+        }
+    }
+    
+    document.ontouchend=function(e){
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.open('POST', '/option', true);
+        xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xmlhttp.onreadystatechange=function(){
+            console.log(this.responseText)
+        }
+        for (var i=0; i<e.changedTouches.length; i++){
+            console.log(e.changedTouches[i].target.id)
+            xmlhttp.send(JSON.stringify({"type":"end", "option":e.changedTouches[i].target.id}));
+        }
+    }
+
+</script>
+</html>
